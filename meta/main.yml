@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: zabbix_agent2
+  namespace: leadlineit
+  author: Stas Stavnichuk
+  description: Install and configure Zabbix-Agent2 5.4 version
+  license: MIT
+  min_ansible_version: '2.11'
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - buster
+        - stretch
+  galaxy_tags:
+    - system
+    - debian
+    - monitoring
+    - zabbix
+    - agent2

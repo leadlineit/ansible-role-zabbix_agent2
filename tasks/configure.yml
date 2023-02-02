@@ -1,0 +1,29 @@
+---
+- name: Copy a Zabbix Agent2 config with our variables
+  ansible.builtin.template:
+    src: zabbix_agent2.conf.j2
+    dest: /etc/zabbix/zabbix_agent2.conf
+    mode: '0644'
+    owner: root
+    group: root
+  notify:
+    - Restart zabbix-agent2 service
+
+- name: Create directory for scripts
+  ansible.builtin.file:
+    path: /usr/lib/zabbix/externalscripts
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Add psk key for Zabbix Agent2
+  when: zabbix_agent_psk is defined
+  ansible.builtin.template:
+    src: agent.psk.j2
+    dest: /etc/zabbix/agent.psk
+    mode: '0640'
+    owner: root
+    group: root
+  notify:
+    - Restart zabbix-agent2 service

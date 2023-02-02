@@ -1,0 +1,41 @@
+---
+- name: Update repo cache and install a few prerequisite packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - apt-transport-https
+    - gnupg2
+
+- name: Add the key for the official Zabbix repository to your system
+  ansible.builtin.apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items:
+    - "https://repo.zabbix.com/zabbix-official-repo.key"
+
+- name: Add the Zabbix repository to APT sources
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: zabbix
+    mode: '0644'
+  with_items:
+    - "deb https://repo.zabbix.com/zabbix/5.4/debian {{ ansible_distribution_release }} main"
+    - "deb-src https://repo.zabbix.com/zabbix/5.4/debian {{ ansible_distribution_release }} main"
+
+- name: Install Zabbix-Agent2, Zabbix-Get and Zabbix-Sender
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - zabbix-agent2
+    - zabbix-get
+    - zabbix-sender
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  notify:
+    - Enable zabbix-agent2 service
+    - Restart zabbix-agent2 service
