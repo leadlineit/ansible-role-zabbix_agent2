@@ -1,0 +1,26 @@
+---
+- name: Nginx | Update repo cache and install dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - logtail
+
+- name: Nginx | Copy script for check metrics
+  ansible.builtin.copy:
+    src: etc/zabbix/scripts/nginx_logs_full.py
+    dest: /etc/zabbix/scripts/nginx_logs_full.py
+    mode: '0755'
+    owner: zabbix
+    group: zabbix
+  notify:
+    - Restart zabbix-agent2 service
+
+- name: Nginx | Copy userparameter
+  ansible.builtin.copy:
+    src: etc/zabbix/zabbix-agent2.d/nginx.conf
+    dest: /etc/zabbix/zabbix_agent2.d/nginx.conf
+    mode: '0644'
+    owner: root
+    group: root

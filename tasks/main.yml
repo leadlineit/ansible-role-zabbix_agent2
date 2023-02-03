@@ -10,3 +10,9 @@
   tags:
     - configure_zabbix_agent2
     - configure
+
+- name: Include ./scripts.yml
+  ansible.builtin.import_tasks: scripts.yml
+  tags:
+    - scripts_zabbix_agent2
+    - scripts
