@@ -20,6 +20,7 @@ zabbix_agent_listen_port: 10050
 zabbix_agent_listen_ip: 0.0.0.0
 zabbix_agent_psk: 6c4ccf50bacdb3486f141ba1112e4a46  # openssl rand -hex 16/(32)
 zabbix_agent_psk_identity: localhost
+zabbix_agent_metadata: []
 zabbix_agent_plugins:
     - name: name_of_some_plugin
       parameters:
@@ -27,7 +28,7 @@ zabbix_agent_plugins:
         value: some_value_for_plugin
 ```
 
-All variables are optional, if you omit them the values above will be used (default).
+All variables are optional, if you omit them the values above will be used default from J2 template.
 
 Dependencies
 ------------
